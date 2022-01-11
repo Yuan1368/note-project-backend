@@ -1,6 +1,46 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const app = express();
+
+if(process.argv.length<3){
+	console.log("请提供密码");
+	process.exit(1);
+}
+
+const password = process.argv[2];
+
+const url = `mongodb+srv://lance:${password}@cluster0.51uag.mongodb.net/test?retryWrites=true&w=majority`;
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+	content:String,
+	important: Boolean,
+	date: Date
+})
+
+const Note = mongoose.model('Note', noteSchema);
+
+Note
+	.find({})
+	.then(res=>{
+		console.log(res);
+		mongoose.connection.close();
+	})
+
+/*
+const note = new Note({
+	content: "new note",
+	important: false,
+	date: new Date()
+})
+
+note.save().then(
+	(res)=>{
+		console.log('note saved!');
+		mongoose.connection.close();
+})*/
 
 app.use(express.static("build"));
 app.use(cors());
