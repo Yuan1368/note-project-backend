@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "build:ui": "rmdir /s build && cd ../note-project-frontend/ && npm run build && copy build ../note-project-backend",
+    "build:ui": "del build && cd ../note-project-frontend/ && npm run build && Xcopy /S /I /E .\\build ..\\note-project-backend\\build ",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
