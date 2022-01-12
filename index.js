@@ -76,7 +76,7 @@ app.get("/api/notes", (req, res) => {
 	})
 })
 
-app.get("/api/notes/:id",(req,res)=>{
+/*app.get("/api/notes/:id",(req,res)=>{
 	const note = notes.find(note=>note.id===Number(req.params.id))
 	res.json(note);
 })
@@ -84,14 +84,14 @@ app.get("/api/notes/:id",(req,res)=>{
 app.delete("/api/notes/:id",(req,res)=>{
 	notes = notes.filter(note=>note.id!==Number(req.params.id));
 	res.status(202).end();
-})
+})*/
 
 const generateId = ()=>{
 	let maxId  = notes.length?Math.max(...notes.map(note=>note.id)):0;
 	return maxId + 1;
 }
 
-app.post("/api/notes",(req,res)=>{
+/*app.post("/api/notes",(req,res)=>{
 
 	if(!req.body.content){
 		res.status(400).json({"content":"error"}).end();
@@ -106,7 +106,7 @@ app.post("/api/notes",(req,res)=>{
 		notes = [...notes, note];
 		res.json(note)
 	}
-})
+})*/
 
 const unknownEndPoint = (req, res)=>{
 	res.status(404).send({"content":"error"}).end();
