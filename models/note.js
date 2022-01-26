@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-
-const url = process.env.MONGODB_URI
+const mongoose = require("mongoose");
+const url = require("../utils/config").MONGODB_URI;
 
 mongoose
 	.connect(url)
@@ -12,9 +11,16 @@ mongoose
 	})
 
 const noteSchema = new mongoose.Schema({
-	content: String,
-	important: Boolean,
-	date: Date
+	content: {
+		type: String,
+		minLength: 5,
+		required: true
+	},
+	date:{
+		type: Date,
+		required: true
+	},
+	important: Boolean
 })
 
 noteSchema.set('toJSON',{
