@@ -4,6 +4,8 @@ const requestLogger = (request, response, next) => {
 	logger.info("request's method", request.method);
 	logger.info("request's path", request.path);
 	logger.info("request's body", request.body);
+	logger.info("----");
+	next()
 }
 
 const unknownEndpoint = (request, response) => {
