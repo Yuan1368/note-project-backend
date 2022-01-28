@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "build:ui": "del build && cd ../note-project-frontend/ && npm run build && Xcopy /S /I /E .\\build ..\\note-project-backend\\build ",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "test": "jest --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,11 @@
     "express": "^4.17.2",
     "mongoose": "^6.1.6",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
