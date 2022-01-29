@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "build:ui": "del build && cd ../note-project-frontend/ && npm run build && Xcopy /S /I /E .\\build ..\\note-project-backend\\build ",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "nodemon": "^2.0.15"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^27.4.7"
   },
   "jest": {
