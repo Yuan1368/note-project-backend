@@ -65,7 +65,6 @@ test("a new note is added", async ()=>{
 	expect(contents).toContain(
 		'HTML is easy'
 	)
-
 })
 
 test("a new note is not added", async ()=>{
@@ -109,8 +108,9 @@ test('a note can be deleted', async () => {
 	const notesAtEnd = await helper.notesInDb()
 
 	expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1)
+
 	const contents = notesAtEnd.map(n=>n.content)
-	contents.not.toContain(noteToDelete.content)
+	expect(contents).not.toContain(noteToDelete.content)
 })
 
 afterAll(() => {

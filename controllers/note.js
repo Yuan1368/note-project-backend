@@ -37,12 +37,14 @@ noteRouter.post("/", async (req, res) => {
 			important: req.body.important || false,
 			date: new Date(),
 		})
-		try{
+
+		// 有了 express-async-errors 库后可以完全消除 try-catch 的处理
+		// try{
 			const savedNote = await note.save();
 			res.json(savedNote);
-		}catch(error){
+/*		}catch(error){
 			next(error);
-		}
+		}*/
 
 
 	}
