@@ -3,6 +3,7 @@ const supertest = require("supertest")
 const helper = require("./test_helper")
 const app = require("../app")
 const Note = require("../models/note")
+const {initialNotes} = require("./test_helper");
 const api = supertest(app)
 
 beforeEach(async ()=>{
@@ -16,7 +17,7 @@ beforeEach(async ()=>{
 test('all notes are returned', async () => {
 	const response = await api.get('/api/notes')
 
-	expect(response.body).toHaveLength(initialNotes.length)
+	expect(response.body).toHaveLength(helper.initialNotes.length)
 })
 
 test("a specific note is within the returned notes", async () => {
@@ -81,6 +82,35 @@ test("a new note is not added", async ()=>{
 	const notesAtEnd = await helper.notesInDb()
 
 	expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
+})
+
+test("a specific not be viewed", async () => {
+	const notesAtStart = await helper.notesInDb();
+
+	const noteToVidew = notesAtStart[0]
+
+	const resultNote = await api
+		.get(`/api/notes/${noteToVidew.id}`)
+		.expect(200)
+		.expect('Content-Type', /application\/json/)
+
+	const processedNoteToView = JSON.parse(JSON.stringify(noteToVidew))
+	expect(resultNote.body).toEqual(processedNoteToView)
+})
+
+test('a note can be deleted', async () => {
+	const notesAtStart = await helper.notesInDb()
+	const noteToDelete = notesAtStart[0];
+
+	await api
+		.delete(`/api/notes/${noteToDelete.id}`)
+		.expect(204)
+
+	const notesAtEnd = await helper.notesInDb()
+
+	expect(notesAtEnd).toHaveLength(helper.initialNotes.length - 1)
+	const contents = notesAtEnd.map(n=>n.content)
+	contents.not.toContain(noteToDelete.content)
 })
 
 afterAll(() => {

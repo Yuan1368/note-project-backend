@@ -2,6 +2,7 @@ const config = require("./utils/config");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+require("express-async-errors") // 这个库会去处理错误，不再使用 try-catch 处理错误
 const noteRouter = require("./controllers/note");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
