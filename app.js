@@ -7,6 +7,7 @@ const noteRouter = require("./controllers/note");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
+const usersRouter = require("./controllers/users");
 
 logger.info('connection to', config.PORT)
 
@@ -24,6 +25,7 @@ app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 app.use("/api/notes", noteRouter);
+// app.use("/api/users", usersRouter);
 app.use(middleware.errorHandler);
 app.use(middleware.unknownEndpoint);
 
