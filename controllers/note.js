@@ -1,5 +1,6 @@
-const noteRouter = require("express").Router();
-const Note = require("../models/note");
+const noteRouter = require("express").Router()
+const Note = require("../models/note")
+const User = require("../models/user")
 
 /*noteRouter.get("/", (req, res) => {
 	res.send("<h1>Hello world</h1>");
@@ -28,20 +29,24 @@ noteRouter.get("/:id", async (req, res, next) => {
 })
 
 noteRouter.post("/", async (req, res) => {
-
 	if (!req.body.content) {
 		res.status(400).json({"content": "error"}).end();
 	} else {
+		const user = await User.findById(req.body.userId)
+
 		const note = new Note({
 			content: req.body.content,
-			important: req.body.important || false,
+			important: req.body.important === undefined ? false : req.body.important,
 			date: new Date(),
+			user: user._id
 		})
 
 		// 有了 express-async-errors 库后可以完全消除 try-catch 的处理
 		// try{
-			const savedNote = await note.save();
-			res.json(savedNote);
+		const savedNote = await note.save();
+		user.notes = [...user.notes, savedNote._id]
+		await user.save()
+		res.json(savedNote);
 /*		}catch(error){
 			next(error);
 		}*/

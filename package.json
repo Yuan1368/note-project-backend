@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
-    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "del build && cd ../note-project-frontend/ && npm run build && Xcopy /S /I /E .\\build ..\\note-project-backend\\build ",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
@@ -20,6 +20,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "mongoose": "^6.1.6",
+    "mongoose-unique-validator": "^3.0.0",
     "nodemon": "^2.0.15"
   },
   "devDependencies": {
