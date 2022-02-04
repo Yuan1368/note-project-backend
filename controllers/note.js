@@ -44,8 +44,8 @@ noteRouter.post("/", async (req, res) => {
 		// 有了 express-async-errors 库后可以完全消除 try-catch 的处理
 		// try{
 		const savedNote = await note.save();
-		user.notes = [...user.notes, savedNote._id]
-		await user.save()
+		let notes = user.notes.concat(savedNote._id)
+		await user.update({notes: notes})
 		res.json(savedNote);
 /*		}catch(error){
 			next(error);
